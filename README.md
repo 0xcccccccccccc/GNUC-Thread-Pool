@@ -1,9 +1,10 @@
 [![CircleCI](https://circleci.com/gh/Pithikos/C-Thread-Pool.svg?style=svg)](https://circleci.com/gh/Pithikos/C-Thread-Pool)
 
-# GNUC Thread Pool - A Fork of C Thread Pool by @Pithikos
+# GNUC Thread Pool - A Multi-Core Fork of C Thread Pool by @Pithikos
 
 This is a minimal but advanced threadpool implementation.
 
+  * Separate tasks to multi-cores automatically with pthread_setaffinity_np
   * Pause/resume/wait as you like
   * Simple easy-to-digest API
   * Well tested
