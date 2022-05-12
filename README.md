@@ -1,17 +1,16 @@
 [![CircleCI](https://circleci.com/gh/Pithikos/C-Thread-Pool.svg?style=svg)](https://circleci.com/gh/Pithikos/C-Thread-Pool)
 
-# C Thread Pool
+# GNUC Thread Pool - A Fork of C Thread Pool by @Pithikos
 
 This is a minimal but advanced threadpool implementation.
 
-  * ANCI C and POSIX compliant
   * Pause/resume/wait as you like
   * Simple easy-to-digest API
   * Well tested
 
 The threadpool is under MIT license. Notice that this project took a considerable amount of work and sacrifice of my free time and the reason I give it for free (even for commercial use) is so when you become rich and wealthy you don't forget about us open-source creatures of the night. Cheers!
 
-If this project reduced your development time feel free to buy me a coffee.
+If this project reduced your development time feel free to buy @Pithikos a coffee.
 
 [![Donate](https://www.paypal.com/en_US/i/btn/x-click-but21.gif)](https://www.paypal.me/seferidis)
 

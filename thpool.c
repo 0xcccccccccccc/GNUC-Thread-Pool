@@ -8,11 +8,12 @@
  *
  ********************************/
 
-#define _POSIX_C_SOURCE 200809L
+
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define __USE_GNU
 #include <pthread.h>
 #include <errno.h>
 #include <time.h>
@@ -84,6 +85,7 @@ typedef struct thpool_{
 	pthread_mutex_t  thcount_lock;       /* used for thread count etc */
 	pthread_cond_t  threads_all_idle;    /* signal to thpool_wait     */
 	jobqueue  jobqueue;                  /* job queue                 */
+    int num_cpus;
 } thpool_;
 
 
@@ -136,6 +138,7 @@ struct thpool_* thpool_init(int num_threads){
 	}
 	thpool_p->num_threads_alive   = 0;
 	thpool_p->num_threads_working = 0;
+    thpool_p->num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
 
 	/* Initialise the job queue */
 	if (jobqueue_init(&thpool_p->jobqueue) == -1){
@@ -291,6 +294,15 @@ static int thread_init (thpool_* thpool_p, struct thread** thread_p, int id){
 	(*thread_p)->id       = id;
 
 	pthread_create(&(*thread_p)->pthread, NULL, (void * (*)(void *)) thread_do, (*thread_p));
+
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(id%(thpool_p->num_cpus), &cpuset);
+    int s = pthread_setaffinity_np((*thread_p)->pthread, sizeof(cpuset), &cpuset);
+    if (s != 0){
+        perror("pthread_setaffinity_np");
+        return -1;
+    }
 	pthread_detach((*thread_p)->pthread);
 	return 0;
 }

@@ -15,16 +15,29 @@
 #include <pthread.h>
 #include <stdint.h>
 #include "thpool.h"
+#include <math.h>
 
 void task(void *arg){
+    float s=1;
+    float pi=0;
+    float i=1.0;
+    float n=1.0;
+    while(fabs(i)>=1e-50){
+        pi+=i;
+        n=n+2;
+        s=-s;
+        i=s/n;
+    }
+    pi=4*pi;
+    printf("pi is：%.6f\n",pi);
 	printf("Thread #%u working on %d\n", (int)pthread_self(), (int) arg);
 }
 
 
 int main(){
 	
-	puts("Making threadpool with 4 threads");
-	threadpool thpool = thpool_init(4);
+	puts("Making threadpool with 16 threads");
+	threadpool thpool = thpool_init(16);
 
 	puts("Adding 40 tasks to threadpool");
 	int i;
